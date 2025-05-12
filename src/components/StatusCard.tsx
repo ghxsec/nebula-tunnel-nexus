@@ -20,9 +20,11 @@ export const StatusCard = ({ status, protocol, server, uptime, className }: Stat
             variant="outline" 
             className={cn(
               "px-3 font-medium capitalize", 
-              status === 'connected' && "bg-green-500/20 text-green-400 border-green-500/30",
-              status === 'disconnected' && "bg-red-500/20 text-red-400 border-red-500/30", 
-              status === 'connecting' && "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+              {
+                "bg-green-500/20 text-green-400 border-green-500/30": status === 'connected',
+                "bg-red-500/20 text-red-400 border-red-500/30": status === 'disconnected',
+                "bg-yellow-500/20 text-yellow-400 border-yellow-500/30": status === 'connecting'
+              }
             )}
           >
             {status}
@@ -48,9 +50,11 @@ export const StatusCard = ({ status, protocol, server, uptime, className }: Stat
               <div className="flex items-center mt-4">
                 <div className={cn(
                   "w-3 h-3 rounded-full mr-2 animate-status-pulse",
-                  status === 'connected' && "bg-green-500",
-                  status === 'connecting' && "bg-yellow-500",
-                  status === 'disconnected' && "bg-red-500"
+                  {
+                    "bg-green-500": status === 'connected',
+                    "bg-yellow-500": status === 'connecting',
+                    "bg-red-500": status === 'disconnected'
+                  }
                 )}></div>
                 <span className="text-sm font-medium">
                   {status === 'connected' && "Secure connection established"}
