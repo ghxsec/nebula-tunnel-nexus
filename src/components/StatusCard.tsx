@@ -14,6 +14,30 @@ interface StatusProps {
 }
 
 export const StatusCard = ({ status, protocol, server, uptime, className }: StatusProps) => {
+  // Helper function to determine classes based on status
+  const getStatusClasses = () => {
+    if (status === 'connected') return "bg-green-500/20 text-green-400 border-green-500/30";
+    if (status === 'disconnected') return "bg-red-500/20 text-red-400 border-red-500/30";
+    if (status === 'connecting') return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+    return "";
+  };
+  
+  // Helper function for pulse background
+  const getPulseBackground = () => {
+    if (status === 'connected') return "bg-green-500";
+    if (status === 'disconnected') return "bg-red-500";
+    if (status === 'connecting') return "bg-yellow-500";
+    return "";
+  };
+  
+  // Helper function for status message
+  const getStatusMessage = () => {
+    if (status === 'connected') return "Secure connection established";
+    if (status === 'connecting') return "Establishing connection...";
+    if (status === 'disconnected') return "Not connected";
+    return "";
+  };
+
   return (
     <div className={cn("glassmorphism rounded-xl overflow-hidden", className)}>
       <div className="px-6 py-5">
@@ -21,14 +45,7 @@ export const StatusCard = ({ status, protocol, server, uptime, className }: Stat
           <h3 className="text-lg font-semibold text-gradient">Connection Status</h3>
           <Badge 
             variant="outline" 
-            className={cn(
-              "px-3 font-medium capitalize", 
-              {
-                "bg-green-500/20 text-green-400 border-green-500/30": status === 'connected',
-                "bg-red-500/20 text-red-400 border-red-500/30": status === 'disconnected',
-                "bg-yellow-500/20 text-yellow-400 border-yellow-500/30": status === 'connecting'
-              }
-            )}
+            className={cn("px-3 font-medium capitalize", getStatusClasses())}
           >
             {status}
           </Badge>
@@ -53,17 +70,9 @@ export const StatusCard = ({ status, protocol, server, uptime, className }: Stat
               <div className="flex items-center mt-4">
                 <div className={cn(
                   "w-3 h-3 rounded-full mr-2 animate-status-pulse",
-                  {
-                    "bg-green-500": status === 'connected',
-                    "bg-yellow-500": status === 'connecting',
-                    "bg-red-500": status === 'disconnected'
-                  }
+                  getPulseBackground()
                 )}></div>
-                <span className="text-sm font-medium">
-                  {status === 'connected' && "Secure connection established"}
-                  {status === 'connecting' && "Establishing connection..."}
-                  {status === 'disconnected' && "Not connected"}
-                </span>
+                <span className="text-sm font-medium">{getStatusMessage()}</span>
               </div>
             </>
           )}
