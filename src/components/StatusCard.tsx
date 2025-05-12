@@ -2,8 +2,11 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
+// Define a type for the possible status values
+type ConnectionStatus = 'connected' | 'disconnected' | 'connecting';
+
 interface StatusProps {
-  status: 'connected' | 'disconnected' | 'connecting';
+  status: ConnectionStatus;
   protocol?: string;
   server?: string;
   uptime?: string;
